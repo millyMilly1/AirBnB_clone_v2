@@ -1,6 +1,6 @@
 0x00. AirBnB clone - The console  <topic>
-Group project || Python || OOP:
 ========================================
+Group project || Python || OOP
 
 Background Context
 Welcome to the AirBnB clone project!
