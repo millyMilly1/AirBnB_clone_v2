@@ -43,7 +43,11 @@ class BaseModel:
         """
         Strimg representation of the class
         """
+<<<<<<< HEAD
         return "[{}] ({}) {}".format(type(self).__name__, self.id, self.__dict__)
+=======
+        return "[{}}] ({}) {}".format(type(self).__name__, self.id, self.__dict__)
+>>>>>>> b1e27d7e1a987fcb9ccd85290689aeff9ed69b92
 
     def save(self):
         """
