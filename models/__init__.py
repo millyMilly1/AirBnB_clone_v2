@@ -6,7 +6,7 @@ directory it is present in is a Python package
 """
 
 
-from engine.file_storage import FileStorage
+from .engine.file_storage import FileStorage
 
 
 storage = FileStorage()
