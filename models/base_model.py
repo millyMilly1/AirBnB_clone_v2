@@ -8,7 +8,7 @@ BaseModel for AirBnB Clone - Console
 
 from .__init__ import storage
 from datetime import datetime
-from models import storage
+#from models import storage
 import json
 import uuid
 
@@ -21,6 +21,7 @@ class BaseModel:
     def __init__(self, *args, **kwargs):
         """
         Initialization for all models based on BaseModel
+
         Initializes id, craeted_at and updated_at
         """
         if kwargs:
@@ -36,12 +37,13 @@ class BaseModel:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
+            storage.new(self)
 
     def __str__(self):
         """
         Strimg representation of the class
         """
-        return "[BaseModel] ({}) {}".format(self.id, self.__dict__)
+        return "[{}] ({}) {}".format(type(self).__name__, self.id, self.__dict__)
 
     def save(self):
         """

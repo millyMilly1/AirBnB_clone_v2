@@ -16,8 +16,14 @@ from os.path import exists
 
 
 class FileStorage:
-    __file_path = "file.json"
-    __objects = {}
+    """
+    Class for File Storage
+    """
+#    __objects = {}
+    def __init__(self):
+        """Initializer for file_path and object dict"""
+        self.__file_path = "file.json"
+        self.__objects = {}
 
     def all(self):
         """Returns the dictionary __objects"""
@@ -26,16 +32,16 @@ class FileStorage:
     def new(self, obj):
         """sets in __objects the obj with key <obj class name>.id"""
         key = "{}.{}".format(type(obj).__name__, obj.id)
-        self.__objects[key] = obj
+        self.__objects = obj
 
     def save(self):
         """serializes __objects to the JSON file (path: __file_path)"""
-        temp_dict = {}
-        for key, obj in self.__objects.items():
-            temp_dict[key] = obj.to_dict()
+        #temp_dict = {}
+        for key, obj in self.__dict__.items():
+            self.__objects[key] = self.__objects.to_dict()
 
-        with open(self.__file_path, 'w', encoding='utf-8') as file:
-            json.dump(temp_dict, file)
+        with open(self.__file_path, 'a+', encoding='utf-8') as file:
+            json.dump(self.__objects, file)
 
     def reload(self):
         """
@@ -52,7 +58,8 @@ class FileStorage:
                     return
 
             for key, value in loaded_data.items():
-                class_name, obj_id = key.split('.')
-                from models.base_model import BaseModel
-                obj = BaseModel(**value)
-                self.__objects[key] = obj
+                if '.' in key:
+                    class_name, obj_id = key.split('.')
+                    from models.base_model import BaseModel
+                    obj = BaseModel(**value)
+                    self.__objects[key] = obj
