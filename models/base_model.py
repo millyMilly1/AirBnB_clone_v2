@@ -8,6 +8,7 @@ BaseModel for AirBnB Clone - Console
 
 from .__init__ import storage
 from datetime import datetime
+from models import storage
 import json
 import uuid
 
