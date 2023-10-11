@@ -19,14 +19,12 @@ class FileStorage:
     """
     Class for File Storage
     """
-#    __objects = {}
+    __objects = {}
     __file_path = "file.json"
 
     def __init__(self):
         """Initializer for file_path and object dict"""
-#        pass
-#        self.__file_path = "file.json"
-        self.__objects = {}
+        pass
 
     def all(self):
         """Returns the dictionary __objects"""
@@ -34,21 +32,16 @@ class FileStorage:
 
     def new(self, obj):
         """sets in __objects the obj with key <obj class name>.id"""
-#        key = "{}.{}".format(type(obj).__name__, obj.id)
-        self.__objects[f'{type(obj).__name__}.{obj.id}'] = obj
+        self.__objects[f"{type(obj).__name__}.{obj.id}"] = obj
 
     def save(self):
         """serializes __objects to the JSON file (path: __file_path)"""
-#        serialized = {
-#            key: val.to_dict()
-#            for key, val in self.__objects.items()
-#        }
         temp_dict = {}
         for key, value in self.__objects.items():
             temp_dict[key] = value.to_dict()
 
-        with open(FileStorage.__file_path, 'a+', encoding='utf-8') as file:
-            json.dump(temp_dict, file)        
+        with open(FileStorage.__file_path, 'w', encoding='utf-8') as file:
+            json.dump(temp_dict, file)
 
     def reload(self):
         """
