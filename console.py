@@ -10,7 +10,7 @@ Uses the cmd module and a custom prompt '(HBNB) '
 import cmd
 from models.base_model import BaseModel
 from models import storage
-#from sys import argv
+# from sys import argv
 
 
 class HBNBCommand(cmd.Cmd):
@@ -64,7 +64,7 @@ class HBNBCommand(cmd.Cmd):
                 args = arg.split(" ")
                 className, obj_id = args
                 try:
-                    temp_name= ".".join([className, obj_id])
+                    temp_name = ".".join([className, obj_id])
                     if temp_name in storage.all().keys():
                         instances = storage.all()[temp_name]
                         if instances:
@@ -90,7 +90,7 @@ class HBNBCommand(cmd.Cmd):
                 args = arg.split(" ")
                 className, obj_id = args
                 try:
-                    temp_name= ".".join([className, obj_id])
+                    temp_name = ".".join([className, obj_id])
                     if temp_name in storage.all().keys():
                         del storage.all()[temp_name]
                     else:
@@ -99,6 +99,32 @@ class HBNBCommand(cmd.Cmd):
                     print("** class doesn't exist **")
             except ValueError:
                 print("** instance id missing **")
+
+    def do_all(self, arg=None):
+        """
+        Prints all string representation of all instances
+        based or not on the class name
+        """
+        """
+        all_Arr = []
+        arr = list(storage.all())
+
+        if arg:
+        """
+        args = arg.split()
+        if not args:
+            all_instances = storage.all()
+            print([str(instance) for instance in all_instances.values()])
+        else:
+            class_name = args[0]
+            try:
+                instances = storage.all(class_name)
+                if instances:
+                    print([str(instance) for instance in instances.values()])
+                else:
+                    print("** no instance found **")
+            except KeyError:
+                print("** class doesn't exist **")
 
 
 if __name__ == '__main__':
