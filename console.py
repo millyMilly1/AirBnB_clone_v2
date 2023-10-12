@@ -65,14 +65,18 @@ class HBNBCommand(cmd.Cmd):
                 className, obj_id = args
                 try:
                     temp_name = ".".join([className, obj_id])
+                    storage_keys = list(storage.all().keys())
+                    storage_keys_split = storage_keys[0].split(".")
                     if temp_name in storage.all().keys():
                         instances = storage.all()[temp_name]
                         if instances:
                             print(instances)
                         else:
                             print("** no instance found **")
-                    else:
+                    elif (className == storage_keys_split[0]):
                         print("** no instance found **")
+                    else:
+                        print("** class doesn't exist **")
                 except KeyError:
                     print("** class doesn't exist **")
             except ValueError:
@@ -105,25 +109,21 @@ class HBNBCommand(cmd.Cmd):
         Prints all string representation of all instances
         based or not on the class name
         """
-        """
-        all_Arr = []
-        arr = list(storage.all())
-
-        if arg:
-        """
-        args = arg.split()
-        if not args:
+        if not arg:
             all_instances = storage.all()
             print([str(instance) for instance in all_instances.values()])
         else:
-            class_name = args[0]
-            try:
-                instances = storage.all(class_name)
-                if instances:
-                    print([str(instance) for instance in instances.values()])
-                else:
-                    print("** no instance found **")
-            except KeyError:
+            className = arg
+            storage_keys = list(storage.all().keys())
+            className_instances = storage.all()
+            for elements in storage_keys:
+                storage_keys_split = storage_keys[0].split(".")
+            if className == storage_keys_split[0]:
+                print([
+                    str(instance) for instance
+                    in storage.all().values()
+                    ])
+            else:
                 print("** class doesn't exist **")
 
 
