@@ -66,17 +66,20 @@ class HBNBCommand(cmd.Cmd):
                 try:
                     temp_name = ".".join([className, obj_id])
                     storage_keys = list(storage.all().keys())
-                    storage_keys_split = storage_keys[0].split(".")
-                    if temp_name in storage.all().keys():
-                        instances = storage.all()[temp_name]
-                        if instances:
-                            print(instances)
-                        else:
+                    if storage_keys:
+                        storage_keys_split = storage_keys[0].split(".")
+                        if temp_name in storage.all().keys():
+                            instances = storage.all()[temp_name]
+                            if instances:
+                                print(instances)
+                            else:
+                                print("** no instance found **")
+                        elif (className == storage_keys_split[0]):
                             print("** no instance found **")
-                    elif (className == storage_keys_split[0]):
-                        print("** no instance found **")
+                        else:
+                            print("** class doesn't exist **")
                     else:
-                        print("** class doesn't exist **")
+                        print("** no instance found **")
                 except KeyError:
                     print("** class doesn't exist **")
             except ValueError:
@@ -115,7 +118,7 @@ class HBNBCommand(cmd.Cmd):
         else:
             className = arg
             storage_keys = list(storage.all().keys())
-            className_instances = storage.all()
+#            className_instances = storage.all()
             for elements in storage_keys:
                 storage_keys_split = storage_keys[0].split(".")
             if className == storage_keys_split[0]:
@@ -125,6 +128,7 @@ class HBNBCommand(cmd.Cmd):
                     ])
             else:
                 print("** class doesn't exist **")
+
     def do_update(self, arg):
         """
         """
@@ -136,7 +140,18 @@ class HBNBCommand(cmd.Cmd):
                 className, obj_id, attrKey, attrValue = arg.split(" ")
                 main_key = ".".join([className, obj_id])
                 if main_key in storage.all().keys():
-                    storage.all()[main_key].update({attrKey: attrValue})
+                    instance = storage.all()[main_key]
+                    if instance:
+                        if (
+                                attrKey == "id" or
+                                attrKey == "created_at"
+                                or attrKey == "updated_at"):
+                            return
+                        else:
+                            setattr(instance, attrKey, attrValue)
+                            instance.save()
+                    else:
+                        print("** no instance found **")
                 else:
                     classNameId = list(storage.all().keys())
                     name_id, class_id = classNameId[0].split(".")

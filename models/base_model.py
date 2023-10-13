@@ -52,10 +52,12 @@ class BaseModel:
 
     def to_dict(self):
         """Converts class onject to dict"""
-        self.created_at = datetime.isoformat(self.created_at)
-        self.updated_at = datetime.isoformat(self.updated_at)
-        result_dict = self.__dict__
+        result_dict = {}
+        for key, val in self.__dict__.items():
+            result_dict[key] = val
         result_dict['__class__'] = type(self).__name__
+        result_dict['created_at'] = result_dict['created_at'].isoformat()
+        result_dict['updated_at'] = result_dict['updated_at'].isoformat()
         return result_dict
 
     def to_json(self):
