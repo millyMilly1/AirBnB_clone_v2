@@ -7,7 +7,6 @@ BaseModel for AirBnB Clone - Console
 
 
 from datetime import datetime
-from models import storage
 import json
 import uuid
 import models
@@ -51,7 +50,7 @@ class BaseModel:
         storage.save()
 
     def to_dict(self):
-        """Converts class onject to dict"""
+        """Converts class object to dict"""
         result_dict = {}
         for key, val in self.__dict__.items():
             result_dict[key] = val
