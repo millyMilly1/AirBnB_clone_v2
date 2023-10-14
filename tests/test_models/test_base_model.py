@@ -26,6 +26,10 @@ class TestBaseModel_instance(unittest.TestCase):
 		""" test the attribute of id if its type str """ 
 		self.assertIsInstance(self.base_model_instance.id, str)
 
+	def test_id_format:
+		""" tests if id attribute matches format uuid """
+		id_format = r'^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+		self.assertTrue(re.match(id_pattern, self.base_model_instance.id))
 
 if __name__ == '__main__':
     unittest.main()
