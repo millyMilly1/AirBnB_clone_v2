@@ -39,7 +39,7 @@ class FileStorage:
 
     def new(self, obj):
         """sets in __objects the obj with key <obj class name>.id"""
-        self.__objects["{}.{}".format(type(obj).__name__, obj.id)] = obj
+        self.__objects["{}.{}".format(obj.__class__.__name__, obj.id)] = obj
 
     def save(self):
         """serializes __objects to the JSON file (path: __file_path)"""
@@ -66,7 +66,12 @@ class FileStorage:
 
             for key, value in loaded_data.items():
                 if '.' in key:
-                    className, obj_id = key.split('.')
                     from models.base_model import BaseModel
-                    obj = BaseModel(**value)
-                    self.__objects[key] = obj
+                    from models.user import User
+                    from models.city import City
+                    from models.state import State
+                    from models.amenity import Amenity
+                    from models.place import Place
+                    from models.review import Review
+                    className, obj_id = key.split('.')
+                    self.__objects[key] = eval(value['__class__'])(**value)

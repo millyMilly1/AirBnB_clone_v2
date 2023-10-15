@@ -10,7 +10,7 @@ from datetime import datetime
 from models import storage
 import json
 import uuid
-# import models
+import models
 
 
 class BaseModel:
@@ -43,20 +43,20 @@ class BaseModel:
     def __str__(self):
         """String representation of the class"""
         return "[{}] ({}) {}".format(
-                type(self).__name__, self.id, self.__dict__
+                self.__class__.__name__, self.id, self.__dict__
                 )
 
     def save(self):
         """Sets an updated time for every changes made"""
         self.updated_at = datetime.now()
-        storage.save()
+        models.storage.save()
 
     def to_dict(self):
         """Converts class object to dict"""
         result_dict = {}
         for key, val in self.__dict__.items():
             result_dict[key] = val
-        result_dict['__class__'] = type(self).__name__
+        result_dict['__class__'] = self.__class__.__name__
         result_dict['created_at'] = result_dict['created_at'].isoformat()
         result_dict['updated_at'] = result_dict['updated_at'].isoformat()
         return result_dict

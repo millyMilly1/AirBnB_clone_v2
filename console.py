@@ -8,6 +8,7 @@ Uses the cmd module and a custom prompt '(HBNB) '
 
 
 import cmd
+import models
 from models.base_model import BaseModel
 from models import storage
 from models.user import User
@@ -24,11 +25,10 @@ class HBNBCommand(cmd.Cmd):
     Inherits from cmd.Cmd
     """
     prompt = "(hbnb) "
-
-#    def __init__(self):
-#        """Initializer for HBNBCommand class"""
-#        super().__init__()
-#        self.prompt = "(hbnb) "
+    classList = [
+            'BaseModel', 'User', 'State', 'City',
+            'Amenity', 'Place', 'Review'
+            ]
 
     def do_quit(self, line):
         """Command to quit the program"""
@@ -56,6 +56,7 @@ class HBNBCommand(cmd.Cmd):
         Prints the string representation of an instance
         based on the class name and id
         """
+
         if not arg:
             print("** class name missing **")
         else:
@@ -73,7 +74,7 @@ class HBNBCommand(cmd.Cmd):
                                 print(instances)
                             else:
                                 print("** no instance found **")
-                        elif (className == storage_keys_split[0]):
+                        elif (className in self.classList):
                             print("** no instance found **")
                         else:
                             print("** class doesn't exist **")
@@ -106,27 +107,24 @@ class HBNBCommand(cmd.Cmd):
             except ValueError:
                 print("** instance id missing **")
 
-    def do_all(self, arg=None):
+    def do_all(self, arg):
         """
         Prints all string representation of all instances
         based or not on the class name
         """
-        if not arg:
-            all_instances = storage.all()
-            print([str(instance) for instance in all_instances.values()])
-        else:
-            className = arg
-            storage_keys = list(storage.all().keys())
-#            className_instances = storage.all()
-            for elements in storage_keys:
-                storage_keys_split = storage_keys[0].split(".")
-            if className == storage_keys_split[0]:
-                print([
-                    str(instance) for instance
-                    in storage.all().values()
-                    ])
+        className = arg if arg else None
+        all_instances = storage.all()
+        if className is not None:
+            class_instances = [
+                    str(instance) for instance in all_instances.values()
+                    if instance.__class__.__name__ == className
+                    ]
+            if class_instances:
+                print(class_instances)
             else:
-                print("** class doesn't exist **")
+                print("** no instance found **")
+        else:
+            print([str(instance) for instance in all_instances.values()])
 
     def do_update(self, arg):
         """
