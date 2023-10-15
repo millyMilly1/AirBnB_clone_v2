@@ -38,6 +38,10 @@ class HBNBCommand(cmd.Cmd):
         """Command to check for 'EOF' and quit the program"""
         return True
 
+    def default(self, line):
+        """Default behavior for empty lines and unknown commands."""
+        pass
+
     def do_create(self, className=None):
         """Creates a new instance of BaseModel"""
         if not className:
