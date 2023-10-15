@@ -36,14 +36,6 @@ class HBNBCommand(cmd.Cmd):
         """Command to check for 'EOF' and quit the program"""
         return True
 
-    def help_quit(self):
-        """Help function for quit"""
-        print("Quit command to exit the program")
-
-    def help_EOF(self):
-        """Help function for do_EOF"""
-        print("EOF Command to exit the program")
-
     def do_create(self, className=None):
         """Creates a new instance of BaseModel"""
         if not className:
@@ -173,6 +165,57 @@ class HBNBCommand(cmd.Cmd):
                     print("** attribute name missing **")
                 else:
                     print("** value missing **")
+
+    def help_quit(self):
+        """Help function for quit"""
+        print("Command to exit the program")
+        print("Usage: quit")
+
+    def help_EOF(self):
+        """Help function for do_EOF"""
+        print("Command to exit the program")
+        print("Usage: $ 'ctrl+d' or $ 'EOF'.")
+
+    def help_create(self):
+        """Help function for do_create"""
+        print("Function to create new instance of class object.")
+        print("Usage: $ create <class name>")
+
+    def help_show(self):
+        """Help function for do_show"""
+        print("Function to show the instance of a class object.")
+        print("Usage: $ show <class name> <instance id>")
+
+    def help_destroy(self):
+        """Help function for do_destroy"""
+        print("Function to destroy an instance of a class object.")
+        print("Usage: $ destroy <class name> <instance id>")
+
+    def help_all(self):
+        """Help function for do_all"""
+        print("Function to print all the instance of a class object.")
+        print("::\tIf <class name> is not specified, prints instances.")
+        print(
+                "::\tIf <class name> is specified, "
+                "prints all instances of the class"
+                )
+        print("Usage: $ all or $ all <class name> ")
+
+    def help_update(self):
+        """Help function for do_update"""
+        print("Function to update the attrributes of an instance.")
+        print(
+                "To identify the instance to update, "
+                "the class name and id are required."
+                )
+        print(
+                "The attributes, in keys and values pair to "
+                "add to the instance are also required."
+                )
+        print(
+                "Usage: $ update <class name> <instance id> "
+                "<attribute key> <attribute value>"
+                )
 
 
 if __name__ == '__main__':

@@ -10,6 +10,7 @@ import unittest
 from datetime import datetime
 from models.base_model import BaseModel
 
+
 class TestBaseModel(unittest.TestCase):
     """ Tests BaseModel class """
     def test_init(self):
@@ -29,14 +30,14 @@ class TestBaseModel(unittest.TestCase):
         """ test the attribute of id if its type str """
         instance1 = BaseModel()
         self.assertIsInstance(instance1.id, str)
-    
+
     def test_id_format(self):
         """ tests if id attribute matches format uuid """
         instance1 = BaseModel()
-        id_format = r'^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+        id_format = r'^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]'
+        '{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
         self.assertTrue(id_format, instance1.id)
 
 
 if __name__ == '__main__':
     unittest.main()
-
