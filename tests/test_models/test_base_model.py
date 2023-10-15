@@ -10,26 +10,32 @@ import unittest
 from datetime import datetime
 from models.base_model import BaseModel
 
-class TestBaseModel_instance(unittest.TestCase):
+class TestBaseModel(unittest.TestCase):
+    """ Tests BaseModel class """
+    def test_init(self):
+        """ setup for basemodel """
+        instance1 = BaseModel()
+        instance2 = BaseModel()
 
-	def setUp(self):
-		""" setup for basemodel """
-		self.base_model_instance = BaseModel()
-   
-	def test_unique_id(self):
-		""" Test if each id has a unique ID """
-		print("test1")
-		instance_1 = BaseModel()
-		self.assertEqual(self.base_model_instance.id, instance_1.id)
-	
-	def test_id_type(self):
-		""" test the attribute of id if its type str """ 
-		self.assertIsInstance(self.base_model_instance.id, str)
+    def test_unique_id(self):
+        # Create two instances of BaseModel
+        instance1 = BaseModel()
+        instance2 = BaseModel()
 
-	def test_id_format:
-		""" tests if id attribute matches format uuid """
-		id_format = r'^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
-		self.assertTrue(re.match(id_pattern, self.base_model_instance.id))
+        # Assert that the IDs of the two instances are different
+        self.assertNotEqual(instance1.id, instance2.id)
+
+    def test_id_type(self):
+        """ test the attribute of id if its type str """
+        instance1 = BaseModel()
+        self.assertIsInstance(instance1.id, str)
+    
+    def test_id_format(self):
+        """ tests if id attribute matches format uuid """
+        instance1 = BaseModel()
+        id_format = r'^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+        self.assertTrue(id_format, instance1.id)
+
 
 if __name__ == '__main__':
     unittest.main()
