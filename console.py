@@ -194,9 +194,9 @@ class HBNBCommand(cmd.Cmd):
     def help_all(self):
         """Help function for do_all"""
         print("Function to print all the instance of a class object.")
-        print("::\tIf <class name> is not specified, prints instances.")
+        print(":: If <class name> is not specified, prints instances.")
         print(
-                "::\tIf <class name> is specified, "
+                ":: If <class name> is specified, "
                 "prints all instances of the class"
                 )
         print("Usage: $ all or $ all <class name> ")
@@ -209,8 +209,8 @@ class HBNBCommand(cmd.Cmd):
                 "the class name and id are required."
                 )
         print(
-                "The attributes, in keys and values pair to "
-                "add to the instance are also required."
+                "The attributes to be updated to the instance, "
+                "in keys and values pair to are also required."
                 )
         print(
                 "Usage: $ update <class name> <instance id> "
