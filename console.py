@@ -23,10 +23,12 @@ class HBNBCommand(cmd.Cmd):
     HBNBCommand custom class to handle line-oriented commands
     Inherits from cmd.Cmd
     """
-    def __init__(self):
-        """Initializer for HBNBCommand class"""
-        super().__init__()
-        self.prompt = "(hbnb) "
+    prompt = "(hbnb) "
+
+#    def __init__(self):
+#        """Initializer for HBNBCommand class"""
+#        super().__init__()
+#        self.prompt = "(hbnb) "
 
     def do_quit(self, line):
         """Command to quit the program"""
