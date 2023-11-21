@@ -1,77 +1,50 @@
 #!/usr/bin/python3
-
-"""
-File Storage: Used for serialization and deserialization to and from
-JSON file instead of dictionary.
-
--   Python doesn’t know how to convert a string to a dictionary (easily)
--   It’s not human readable
--   Using this file with another program in Python
-    or other language will be hard.
-"""
-
-
+"""This module defines a class to manage file storage for hbnb clone"""
 import json
-from os.path import exists
-# from models.base_model import BaseModel
-# from models.user import User
-# from models.city import City
-# from models.state import State
-# from models.amenity import Amenity
-# from models.place import Place
-# from models.review import Review
 
 
 class FileStorage:
-    """
-    Class for File Storage
-    """
+    """This class manages storage of hbnb models in JSON format"""
+    __file_path = 'file.json'
     __objects = {}
-    __file_path = "file.json"
-
-    def __init__(self):
-        """Initializer for file_path and object dict"""
-        pass
 
     def all(self):
-        """Returns the dictionary __objects"""
-        return self.__objects
+        """Returns a dictionary of models currently in storage"""
+        return FileStorage.__objects
 
     def new(self, obj):
-        """sets in __objects the obj with key <obj class name>.id"""
-        self.__objects["{}.{}".format(obj.__class__.__name__, obj.id)] = obj
+        """Adds new object to storage dictionary"""
+        self.all().update({obj.to_dict()['__class__'] + '.' + obj.id: obj})
 
     def save(self):
-        """serializes __objects to the JSON file (path: __file_path)"""
-        temp_dict = {}
-        for key, value in self.__objects.items():
-            temp_dict[key] = value.to_dict()
-
-        with open(FileStorage.__file_path, 'w', encoding='utf-8') as file:
-            json.dump(temp_dict, file)
+        """Saves storage dictionary to file"""
+        with open(FileStorage.__file_path, 'w') as f:
+            temp = {}
+            temp.update(FileStorage.__objects)
+            for key, val in temp.items():
+                temp[key] = val.to_dict()
+            json.dump(temp, f)
 
     def reload(self):
-        """
-        deserializes the JSON file to __objects
-        only if the JSON file (__file_path) exists;
-        otherwise, do nothing. If the file doesn’t exist,
-        no exception should be raised
-        """
-        if exists(self.__file_path):
-            with open(self.__file_path, 'r', encoding='utf-8') as file:
-                try:
-                    loaded_data = json.load(file)
-                except json.JSONDecodeError:
-                    return
+        """Loads storage dictionary from file"""
+        from models.base_model import BaseModel
+        from models.user import User
+        from models.place import Place
+        from models.state import State
+        from models.city import City
+        from models.amenity import Amenity
+        from models.review import Review
 
-            for key, value in loaded_data.items():
-                if '.' in key:
-                    from models.base_model import BaseModel
-                    from models.user import User
-                    from models.city import City
-                    from models.state import State
-                    from models.amenity import Amenity
-                    from models.place import Place
-                    from models.review import Review
-                    className, obj_id = key.split('.')
-                    self.__objects[key] = eval(value['__class__'])(**value)
+        classes = {
+                    'BaseModel': BaseModel, 'User': User, 'Place': Place,
+                    'State': State, 'City': City, 'Amenity': Amenity,
+                    'Review': Review
+                  }
+        try:
+            temp = {}
+            with open(FileStorage.__file_path, 'r') as f:
+                temp = json.load(f)
+                for key, val in temp.items():
+                        self.all()[key] = classes[val['__class__']](**val)
+        except FileNotFoundError:
+            pass
